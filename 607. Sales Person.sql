@@ -1,12 +1,15 @@
-with cte1 as (select s.sales_id, s.name, o.com_id
-from Orders as o
-right join SalesPerson as s
-on o.sales_id = s.sales_id),
-cte2 as (select cte1.name as person, c.name as com_name
+# Write your MySQL query statement below
+
+with cte1 as (select s.sales_id, s.name, s.salary, o.order_id, o.com_id
+from salesPerson as s
+left join Orders as o
+on s.sales_id = o.sales_id),
+cte2 as (select cte1.name, cte1.order_id, cte1.com_id, c.name as company_name
 from cte1
-left join Company as c
+left join company as c
 on cte1.com_id = c.com_id)
 
-SELECT distinct person as name
-FROM cte2
-WHERE person not in (select person from cte2 where com_name = 'RED')
+select distinct name
+from cte2
+where name not in (select name from cte2 where company_name = 'RED')  
+
